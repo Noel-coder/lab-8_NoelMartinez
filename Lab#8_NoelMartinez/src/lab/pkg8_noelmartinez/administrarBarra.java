@@ -1,8 +1,6 @@
 package lab.pkg8_noelmartinez;
 
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
@@ -11,21 +9,11 @@ public class administrarBarra extends Thread {
     private JProgressBar barra;
     private boolean avanzar;
     private boolean vive;
-    private boolean diezmil;
 
     public administrarBarra(JProgressBar barra) {
         this.barra = barra;
         avanzar = true;
         vive = true;
-        diezmil = true;
-    }
-
-    public boolean isDiezmil() {
-        return diezmil;
-    }
-
-    public void setDiezmil(boolean diezmil) {
-        this.diezmil = diezmil;
     }
 
     public boolean isVive() {

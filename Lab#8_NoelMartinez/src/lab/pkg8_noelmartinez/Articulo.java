@@ -86,7 +86,7 @@ public class Articulo {
 
     @Override
     public String toString() {
-        return "Articulo{" + "Titulo=" + Titulo + ", color=" + color + ", desc=" + desc + ", editorial=" + editorial + ", tama\u00f1o=" + tamaño + ", puntuacion=" + puntuacion + ", persona=" + persona + '}';
+        return "Articulo " + "Titulo " + Titulo + ", color " + color + ", descripcion " + desc + ", editorial " + editorial + ", tama\u00f1o=" + tamaño + ", puntuacion " + puntuacion + ", persona " + persona;
     }
     
 }

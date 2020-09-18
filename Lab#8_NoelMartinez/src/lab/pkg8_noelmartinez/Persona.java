@@ -88,7 +88,7 @@ public class Persona {
 
     @Override
     public String toString() {
-        return "Persona{" + "ID=" + ID + ", Nombre=" + Nombre + ", Edad=" + Edad + ", Sexo=" + Sexo + ", EstadoCivil=" + EstadoCivil + ", Altura=" + Altura + ", Peso=" + Peso + '}';
+        return "Persona " + "ID " + ID + ", Nombre " + Nombre + ", Edad " + Edad + ", Sexo " + Sexo + ", EstadoCivil " + EstadoCivil + ", Altura " + Altura + ", Peso " + Peso;
     }
     
 }

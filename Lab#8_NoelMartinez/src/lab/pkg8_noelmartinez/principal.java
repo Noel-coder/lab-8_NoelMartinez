@@ -23,7 +23,9 @@ public class principal extends javax.swing.JFrame {
      */
     public principal() {
         initComponents();
+        //sirve para que la pantalla se muestre centrada
         this.setLocationRelativeTo(null);
+        //estos 3 primeros hilos es para controlar las horas que coloque en cada tab
         HiloHora h = new HiloHora(jl_hora);
         Thread proceso1 = new Thread(h);
         proceso1.start();
@@ -35,6 +37,10 @@ public class principal extends javax.swing.JFrame {
         HiloHora h3 = new HiloHora(jl_hora3);
         Thread proceso3 = new Thread(h3);
         proceso3.start();
+        //este hilo es para manejar el progress bar del estado del articulo
+        administrarBarra ab = new administrarBarra(jp_estado);
+        Thread llenado = new Thread(ab);
+        llenado.start();
     }
 
     /**
@@ -69,8 +75,8 @@ public class principal extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jf_altura = new javax.swing.JFormattedTextField();
         jf_peso = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        bt_creargerente = new javax.swing.JButton();
+        bt_crearPersona = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -243,25 +249,25 @@ public class principal extends javax.swing.JFrame {
         jPanel4.add(jf_peso);
         jf_peso.setBounds(102, 311, 123, 30);
 
-        jButton1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jButton1.setText("Crear Gerente");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        bt_creargerente.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        bt_creargerente.setText("Crear Gerente");
+        bt_creargerente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                bt_creargerenteMouseClicked(evt);
             }
         });
-        jPanel4.add(jButton1);
-        jButton1.setBounds(569, 203, 138, 44);
+        jPanel4.add(bt_creargerente);
+        bt_creargerente.setBounds(569, 203, 138, 44);
 
-        jButton2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jButton2.setText("Crear Persona General ");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        bt_crearPersona.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        bt_crearPersona.setText("Crear Persona General ");
+        bt_crearPersona.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
+                bt_crearPersonaMouseClicked(evt);
             }
         });
-        jPanel4.add(jButton2);
-        jButton2.setBounds(600, 550, 186, 44);
+        jPanel4.add(bt_crearPersona);
+        bt_crearPersona.setBounds(600, 550, 186, 44);
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
@@ -351,6 +357,8 @@ public class principal extends javax.swing.JFrame {
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel4.add(jSeparator4);
         jSeparator4.setBounds(416, 0, 10, 358);
+
+        sp_edad.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
         jPanel4.add(sp_edad);
         sp_edad.setBounds(110, 130, 50, 20);
 
@@ -513,6 +521,8 @@ public class principal extends javax.swing.JFrame {
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel6.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, 10, 200));
+
+        sp_estado.setModel(new javax.swing.SpinnerNumberModel(0, 0, 10, 1));
         jPanel6.add(sp_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 400, 60, -1));
         jPanel6.add(jp_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 440, 300, 30));
 
@@ -663,106 +673,111 @@ public class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_crearJuegoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearJuegoMouseClicked
-        String contraseña = "";
-        contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
-        if (contraseña.equals("clau123")) {
-            if (jt_titulo.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe llenar los campos de Articulo Primero!");
-            } else {
-                String Titulo;
-                Color color;
-                String desc;
-                String editorial;
-                double tamaño;
-                int puntuacion;
-                Persona persona = null;
-                int edicion;
-                String CasaElaboracion;
-                String Pais;
-                try {
-                    Titulo = jt_titulo.getText();
-                    color = jt_color.getBackground();
-                    desc = jt_desc.getText();
-                    editorial = jt_editorial.getText();
-                    tamaño = Double.parseDouble(jt_tamaño.getText());
-                    puntuacion = Integer.parseInt(jt_puntuacion.getText());
-                    edicion = Integer.parseInt(jt_edicion.getText());
-                    CasaElaboracion = jt_casa.getText();
-                    Pais = jt_pais.getText();
-                    Articulo a = new Juegos(edicion, CasaElaboracion, Pais, Titulo, color, desc, editorial, tamaño, puntuacion, persona);
-                    DefaultComboBoxModel modelo2 = (DefaultComboBoxModel) cb_articulos.getModel();
-                    modelo2.addElement(a);
-                    cb_personas.setModel(modelo2);
+        //este boton funciona para crear juegos
+        while (true) {
+            String contraseña = "";
+            contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
+            if (contraseña.equals("clau123")) {
+                if (jt_titulo.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe llenar los campos de Articulo Primero!");
+                } else {
+                    String Titulo;
+                    Color color;
+                    String desc;
+                    String editorial;
+                    double tamaño;
+                    int puntuacion;
+                    Persona persona = null;
+                    int edicion;
+                    String CasaElaboracion;
+                    String Pais;
+                    try {
+                        Titulo = jt_titulo.getText();
+                        color = jt_color.getBackground();
+                        desc = jt_desc.getText();
+                        editorial = jt_editorial.getText();
+                        tamaño = Double.parseDouble(jt_tamaño.getText());
+                        puntuacion = Integer.parseInt(jt_puntuacion.getText());
+                        edicion = Integer.parseInt(jt_edicion.getText());
+                        CasaElaboracion = jt_casa.getText();
+                        Pais = jt_pais.getText();
+                        Articulo a = new Juegos(edicion, CasaElaboracion, Pais, Titulo, color, desc, editorial, tamaño, puntuacion, persona);
+                        DefaultComboBoxModel modelo2 = (DefaultComboBoxModel) cb_articulos.getModel();
+                        modelo2.addElement(a);
+                        cb_personas.setModel(modelo2);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Ocurrio un error, no se pudo guardar ningun dato");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Ocurrio un error, no se pudo guardar ningun dato");
+                    }
+                    JOptionPane.showMessageDialog(this, "Juego creado exitosamente");
+                    jt_titulo.setText("");
+                    jt_color.setBackground(Color.GRAY);
+                    jt_desc.setText("");
+                    jt_editorial.setText("");
+                    jt_tamaño.setText("");
+                    jt_puntuacion.setText("");
+                    jt_edicion.setText("");
+                    jt_casa.setText("");
+                    jt_pais.setText("");
                 }
-                JOptionPane.showMessageDialog(this, "Juego creado exitosamente");
-                jt_titulo.setText("");
-                jt_color.setBackground(Color.GRAY);
-                jt_desc.setText("");
-                jt_editorial.setText("");
-                jt_tamaño.setText("");
-                jt_puntuacion.setText("");
-                jt_edicion.setText("");
-                jt_casa.setText("");
-                jt_pais.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Contraseña no valida!");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Contraseña no valida!");
         }
-
     }//GEN-LAST:event_bt_crearJuegoMouseClicked
 
     private void bt_crearComicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearComicMouseClicked
-        String contraseña = "";
-        contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
-        if (contraseña.equals("clau123")) {
-            if (jt_titulo.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe llenar los campos de Articulo Primero!");
-            } else {
-                String Titulo;
-                Color color;
-                String desc;
-                String editorial;
-                double tamaño;
-                int puntuacion;
-                Persona persona = null;
-                int Estado;
-                int volumen_desc;
+        //este es para crear comics tambien con sus respectivos datos
+        while (true) {
+            String contraseña = "";
+            contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
+            if (contraseña.equals("clau123")) {
+                if (jt_titulo.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe llenar los campos de Articulo Primero!");
+                } else {
+                    String Titulo;
+                    Color color;
+                    String desc;
+                    String editorial;
+                    double tamaño;
+                    int puntuacion;
+                    Persona persona = null;
+                    int Estado;
+                    int volumen_desc;
 
-                try {
-                    Titulo = jt_titulo.getText();
-                    color = jt_color.getBackground();
-                    desc = jt_desc.getText();
-                    editorial = jt_editorial.getText();
-                    tamaño = Double.parseDouble(jt_tamaño.getText());
-                    puntuacion = Integer.parseInt(jt_puntuacion.getText());
-                    Estado = Integer.parseInt(sp_estado.getValue().toString());
-                    volumen_desc = Integer.parseInt(jt_volumen.getText());
-                    Articulo a = new Comic(volumen_desc, Estado, Titulo, color, desc, editorial, tamaño, puntuacion, persona);
-                    DefaultComboBoxModel modelo2 = (DefaultComboBoxModel) cb_articulos.getModel();
-                    modelo2.addElement(a);
-                    cb_personas.setModel(modelo2);
+                    try {
+                        Titulo = jt_titulo.getText();
+                        color = jt_color.getBackground();
+                        desc = jt_desc.getText();
+                        editorial = jt_editorial.getText();
+                        tamaño = Double.parseDouble(jt_tamaño.getText());
+                        puntuacion = Integer.parseInt(jt_puntuacion.getText());
+                        Estado = Integer.parseInt(sp_estado.getValue().toString());
+                        volumen_desc = Integer.parseInt(jt_volumen.getText());
+                        Articulo a = new Comic(volumen_desc, Estado, Titulo, color, desc, editorial, tamaño, puntuacion, persona);
+                        DefaultComboBoxModel modelo2 = (DefaultComboBoxModel) cb_articulos.getModel();
+                        modelo2.addElement(a);
+                        cb_personas.setModel(modelo2);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Ocurrio un error, no se pudo guardar ningun dato");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Ocurrio un error, no se pudo guardar ningun dato");
+                    }
+                    JOptionPane.showMessageDialog(this, "Comic creado exitosamente");
+                    jt_titulo.setText("");
+                    jt_color.setBackground(Color.GRAY);
+                    jt_desc.setText("");
+                    jt_editorial.setText("");
+                    jt_tamaño.setText("");
+                    jt_puntuacion.setText("");
+                    sp_estado.setValue(0);
+                    jt_volumen.setText("");
                 }
-                JOptionPane.showMessageDialog(this, "Comic creado exitosamente");
-                jt_titulo.setText("");
-                jt_color.setBackground(Color.GRAY);
-                jt_desc.setText("");
-                jt_editorial.setText("");
-                jt_tamaño.setText("");
-                jt_puntuacion.setText("");
-                sp_estado.setValue(0);
-                jt_volumen.setText("");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Contraseña no valida!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Contraseña no valida!");
 
+            }
         }
     }
 
@@ -808,64 +823,68 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_crearComicMouseClicked
 
     private void bt_crearFiguraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearFiguraMouseClicked
+       //Este boton es para crear una figura con sus respectivos datos mas la seguridad pedida por la hermosa instructora :3
+        while (true) {
+            String contraseña = "";
+            contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
+            if (contraseña.equals("clau123")) {
+                if (jt_titulo.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe llenar los campos de Articulo Primero!");
+                } else {
 
-        String contraseña = "";
-        contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
-        if (contraseña.equals("clau123")) {
-            if (jt_titulo.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe llenar los campos de Articulo Primero!");
-            } else {
-
-                String Titulo;
-                Color color;
-                String desc;
-                String editorial;
-                double tamaño;
-                int puntuacion;
-                Persona persona = null;
-                String descFig;
-                String instrucciones;
-                String garantia;
-                try {
-                    Titulo = jt_titulo.getText();
-                    color = jt_color.getBackground();
-                    desc = jt_desc.getText();
-                    editorial = jt_editorial.getText();
-                    tamaño = Double.parseDouble(jt_tamaño.getText());
-                    puntuacion = Integer.parseInt(jt_puntuacion.getText());
-                    descFig = jt_descfig.getText();
-                    instrucciones = jt_instrucciones.getText();
-                    garantia = jt_garantia.getText();
-                    Articulo a = new Figura(descFig, instrucciones, garantia, Titulo, color, desc, editorial, tamaño, puntuacion, persona);
-                    DefaultComboBoxModel modelo2 = (DefaultComboBoxModel) cb_articulos.getModel();
-                    modelo2.addElement(a);
-                    cb_personas.setModel(modelo2);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Ocurrio un error, no se pudo guardar ningun dato");
+                    String Titulo;
+                    Color color;
+                    String desc;
+                    String editorial;
+                    double tamaño;
+                    int puntuacion;
+                    Persona persona = null;
+                    String descFig;
+                    String instrucciones;
+                    String garantia;
+                    try {
+                        Titulo = jt_titulo.getText();
+                        color = jt_color.getBackground();
+                        desc = jt_desc.getText();
+                        editorial = jt_editorial.getText();
+                        tamaño = Double.parseDouble(jt_tamaño.getText());
+                        puntuacion = Integer.parseInt(jt_puntuacion.getText());
+                        descFig = jt_descfig.getText();
+                        instrucciones = jt_instrucciones.getText();
+                        garantia = jt_garantia.getText();
+                        Articulo a = new Figura(descFig, instrucciones, garantia, Titulo, color, desc, editorial, tamaño, puntuacion, persona);
+                        DefaultComboBoxModel modelo2 = (DefaultComboBoxModel) cb_articulos.getModel();
+                        modelo2.addElement(a);
+                        cb_personas.setModel(modelo2);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Ocurrio un error, no se pudo guardar ningun dato");
+                    }
+                    JOptionPane.showMessageDialog(this, "Figura creada exitosamente");
+                    jt_titulo.setText("");
+                    jt_color.setBackground(Color.GRAY);
+                    jt_desc.setText("");
+                    jt_editorial.setText("");
+                    jt_tamaño.setText("");
+                    jt_puntuacion.setText("");
+                    jt_descfig.setText("");
+                    jt_instrucciones.setText("");
+                    jt_garantia.setText("");
                 }
-                JOptionPane.showMessageDialog(this, "Figura creada exitosamente");
-                jt_titulo.setText("");
-                jt_color.setBackground(Color.GRAY);
-                jt_desc.setText("");
-                jt_editorial.setText("");
-                jt_tamaño.setText("");
-                jt_puntuacion.setText("");
-                jt_descfig.setText("");
-                jt_instrucciones.setText("");
-                jt_garantia.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Contraseña no valida!");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Contraseña no valida!");
         }
     }//GEN-LAST:event_bt_crearFiguraMouseClicked
 
     private void jt_colorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_colorMouseClicked
+        //este boton setea el fondo al color elegido
         jt_color.setBackground(JColorChooser.showDialog(this, "Elija el color del producto: ", Color.GRAY));
 
     }//GEN-LAST:event_jt_colorMouseClicked
 
     private void jb_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_eliminarMouseClicked
+        //Elimina fila de una table
         if (tabla1.getSelectedRow() >= 0) {
             DefaultTableModel modelo = (DefaultTableModel) tabla1.getModel();
             modelo.removeRow(tabla1.getSelectedRow());
@@ -874,6 +893,7 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_eliminarMouseClicked
 
     private void cb_articulosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_articulosItemStateChanged
+        //este combobox recibe los objetos instanceados del Articulo
         if (evt.getStateChange() == 2) {
             if (cb_articulos.getSelectedItem() instanceof Comic) {
                 Comic c = (Comic) cb_articulos.getSelectedItem();
@@ -909,7 +929,7 @@ public class principal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_cb_articulosItemStateChanged
-
+    //este combobox recibe los objetos instanceados de persona
     private void cb_personasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_personasItemStateChanged
         if (evt.getStateChange() == 2) {
             if (cb_personas.getSelectedItem() instanceof Gerente) {
@@ -939,134 +959,140 @@ public class principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cb_personasItemStateChanged
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        String contraseña = "";
-        contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
-        if (contraseña.equals("clau123")) {
-            if (jt_nombre.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe llenar los campos de Persona Primero!");
-            } else {
-                String ID, Usuario, Horario, SemanaTrabajando, Ocupacion;
-                String Nombre;
-                int Edad;
-                String Sexo = "";
-                String EstadoCivil = "";
-                double Altura, Peso, Sueldo;
-                try {
-                    ID = jt_id.getText();
-                    Nombre = jt_nombre.getText();
-                    Edad = Integer.parseInt(sp_edad.getValue().toString());
-                    if (rb_m.isSelected()) {
-                        Sexo = "Masculino";
-                    } else {
-                        Sexo = "Femenino";
-                    }
-                    if (rb_soltero.isSelected()) {
-                        EstadoCivil = "Soltero(a)";
-                    } else if (rb_casado.isSelected()) {
-                        EstadoCivil = "Casado(a)";
-                    } else if (rb_divorciado.isSelected()) {
-                        EstadoCivil = "Divorciado(a)";
-                    } else if (rb_viudo.isSelected()) {
-                        EstadoCivil = "Viudo(a)";
-                    }
-                    Altura = Double.parseDouble(jf_altura.getText());
-                    Peso = Double.parseDouble(jf_peso.getText());
-                    Ocupacion = jt_ocupacion.getText();
-                    Horario = jt_horario.getText();
-                    SemanaTrabajando = jt_tiempo.getText();
-                    Sueldo = Double.parseDouble(jt_sueldo.getText());
-                    Persona g2 = new PersonaGeneral(Ocupacion, Horario, Edad, Sueldo, ID, Nombre, Edad, Sexo, EstadoCivil, Altura, Peso);
-                    DefaultComboBoxModel modelo3 = (DefaultComboBoxModel) cb_registro.getModel();
-                    modelo3.addElement(g2);
-                    cb_registro.setModel(modelo3);
+    private void bt_crearPersonaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearPersonaMouseClicked
+        //este boton es para crear la persona General
+        while (true) {
+            String contraseña = "";
+            contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
+            if (contraseña.equals("clau123")) {
+                if (jt_nombre.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe llenar los campos de Persona Primero!");
+                } else {
+                    String ID, Usuario, Horario, SemanaTrabajando, Ocupacion;
+                    String Nombre;
+                    int Edad;
+                    String Sexo = "";
+                    String EstadoCivil = "";
+                    double Altura, Peso, Sueldo;
+                    try {
+                        ID = jt_id.getText();
+                        Nombre = jt_nombre.getText();
+                        Edad = Integer.parseInt(sp_edad.getValue().toString());
+                        if (rb_m.isSelected()) {
+                            Sexo = "Masculino";
+                        } else {
+                            Sexo = "Femenino";
+                        }
+                        if (rb_soltero.isSelected()) {
+                            EstadoCivil = "Soltero(a)";
+                        } else if (rb_casado.isSelected()) {
+                            EstadoCivil = "Casado(a)";
+                        } else if (rb_divorciado.isSelected()) {
+                            EstadoCivil = "Divorciado(a)";
+                        } else if (rb_viudo.isSelected()) {
+                            EstadoCivil = "Viudo(a)";
+                        }
+                        Altura = Double.parseDouble(jf_altura.getText());
+                        Peso = Double.parseDouble(jf_peso.getText());
+                        Ocupacion = jt_ocupacion.getText();
+                        Horario = jt_horario.getText();
+                        SemanaTrabajando = jt_tiempo.getText();
+                        Sueldo = Double.parseDouble(jt_sueldo.getText());
+                        Persona g2 = new PersonaGeneral(Ocupacion, Horario, Edad, Sueldo, ID, Nombre, Edad, Sexo, EstadoCivil, Altura, Peso);
+                        DefaultComboBoxModel modelo3 = (DefaultComboBoxModel) cb_registro.getModel();
+                        modelo3.addElement(g2);
+                        cb_registro.setModel(modelo3);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Ocurrio un error, no se puedo guardar ningun dato");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Ocurrio un error, no se puedo guardar ningun dato");
+                    }
+                    JOptionPane.showMessageDialog(this, "Personal General creado exitosamente");
+                    jt_id.setText("");
+                    jt_nombre.setText("");
+                    sp_edad.setValue(0);
+                    jf_altura.setText("");
+                    jf_peso.setText("");
+                    jt_ocupacion.setText("");
+                    jt_horario.setText("");
+                    jt_tiempo.setText("");
+                    jt_sueldo.setText("");
                 }
-                JOptionPane.showMessageDialog(this, "Personal General creado exitosamente");
-                jt_id.setText("");
-                jt_nombre.setText("");
-                sp_edad.setValue(0);
-                jf_altura.setText("");
-                jf_peso.setText("");
-                jt_ocupacion.setText("");
-                jt_horario.setText("");
-                jt_tiempo.setText("");
-                jt_sueldo.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Contraseña no valida!");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Contraseña no valida!");
         }
 
-    }//GEN-LAST:event_jButton2MouseClicked
+    }//GEN-LAST:event_bt_crearPersonaMouseClicked
+    
+    private void bt_creargerenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_creargerenteMouseClicked
+        //este boton es para crear un gerente y lo mete en su respectivo combo box
+        while (true) {
+            String contraseña = "clau123";
+            contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
+            if (contraseña.equals("clau123")) {
+                if (jt_nombre.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe llenar los campos de Persona Primero!");
+                } else {
+                    String ID, Usuario, Contraseña, Cargo;
+                    String Nombre;
+                    int Edad;
+                    String Sexo = "";
+                    String EstadoCivil = "";
+                    double Altura, Peso;
+                    try {
+                        ID = jt_id.getText();
+                        Nombre = jt_nombre.getText();
+                        Edad = Integer.parseInt(sp_edad.getValue().toString());
+                        if (rb_m.isSelected()) {
+                            Sexo = "Masculino";
+                        } else {
+                            Sexo = "Femenino";
+                        }
+                        if (rb_soltero.isSelected()) {
+                            EstadoCivil = "Soltero(a)";
+                        } else if (rb_casado.isSelected()) {
+                            EstadoCivil = "Casado(a)";
+                        } else if (rb_divorciado.isSelected()) {
+                            EstadoCivil = "Divorciado(a)";
+                        } else if (rb_viudo.isSelected()) {
+                            EstadoCivil = "Viudo(a)";
+                        }
+                        Altura = Double.parseDouble(jf_altura.getText());
+                        Peso = Double.parseDouble(jf_peso.getText());
+                        Usuario = jt_usuario.getText();
+                        Contraseña = jp_contraseña.getText();
+                        Cargo = jt_cargo.getText();
+                        Gerente g = new Gerente(Usuario, Contraseña, Cargo, ID, Nombre, Edad, Sexo, EstadoCivil, Altura, Peso);
+                        DefaultComboBoxModel modelo1 = (DefaultComboBoxModel) cb_personas.getModel();
+                        modelo1.addElement(g);
+                        cb_personas.setModel(modelo1);
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        String contraseña = "";
-        contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
-        if (contraseña.equals("clau123")) {
-            if (jt_nombre.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe llenar los campos de Persona Primero!");
-            } else {
-                String ID, Usuario, Contraseña, Cargo;
-                String Nombre;
-                int Edad;
-                String Sexo = "";
-                String EstadoCivil = "";
-                double Altura, Peso;
-                try {
-                    ID = jt_id.getText();
-                    Nombre = jt_nombre.getText();
-                    Edad = Integer.parseInt(sp_edad.getValue().toString());
-                    if (rb_m.isSelected()) {
-                        Sexo = "Masculino";
-                    } else {
-                        Sexo = "Femenino";
+                        Persona g2 = new Gerente(Usuario, Contraseña, Cargo, ID, Nombre, Edad, Sexo, EstadoCivil, Altura, Peso);
+                        DefaultComboBoxModel modelo3 = (DefaultComboBoxModel) cb_registro.getModel();
+                        modelo3.addElement(g2);
+                        cb_registro.setModel(modelo3);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Ocurrio un error, no se puedo guardar ningun dato");
                     }
-                    if (rb_soltero.isSelected()) {
-                        EstadoCivil = "Soltero(a)";
-                    } else if (rb_casado.isSelected()) {
-                        EstadoCivil = "Casado(a)";
-                    } else if (rb_divorciado.isSelected()) {
-                        EstadoCivil = "Divorciado(a)";
-                    } else if (rb_viudo.isSelected()) {
-                        EstadoCivil = "Viudo(a)";
-                    }
-                    Altura = Double.parseDouble(jf_altura.getText());
-                    Peso = Double.parseDouble(jf_peso.getText());
-                    Usuario = jt_usuario.getText();
-                    Contraseña = jp_contraseña.getText();
-                    Cargo = jt_cargo.getText();
-                    Gerente g = new Gerente(Usuario, Contraseña, Cargo, ID, Nombre, Edad, Sexo, EstadoCivil, Altura, Peso);
-                    DefaultComboBoxModel modelo1 = (DefaultComboBoxModel) cb_personas.getModel();
-                    modelo1.addElement(g);
-                    cb_personas.setModel(modelo1);
-
-                    Persona g2 = new Gerente(Usuario, Contraseña, Cargo, ID, Nombre, Edad, Sexo, EstadoCivil, Altura, Peso);
-                    DefaultComboBoxModel modelo3 = (DefaultComboBoxModel) cb_registro.getModel();
-                    modelo3.addElement(g2);
-                    cb_registro.setModel(modelo3);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Ocurrio un error, no se puedo guardar ningun dato");
+                    JOptionPane.showMessageDialog(this, "Gerente creado exitosamente");
+                    jt_id.setText("");
+                    jt_nombre.setText("");
+                    sp_edad.setValue(0);
+                    jf_altura.setText("");
+                    jf_peso.setText("");
+                    jt_usuario.setText("");
+                    jp_contraseña.setText("");
+                    jt_cargo.setText("");
                 }
-                JOptionPane.showMessageDialog(this, "Gerente creado exitosamente");
-                jt_id.setText("");
-                jt_nombre.setText("");
-                sp_edad.setValue(0);
-                jf_altura.setText("");
-                jf_peso.setText("");
-                jt_usuario.setText("");
-                jp_contraseña.setText("");
-                jt_cargo.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Contraseña no valida!");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Contraseña no valida!");
         }
 
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_bt_creargerenteMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1113,11 +1139,11 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_crearComic;
     private javax.swing.JButton bt_crearFigura;
     private javax.swing.JButton bt_crearJuego;
+    private javax.swing.JButton bt_crearPersona;
+    private javax.swing.JButton bt_creargerente;
     private javax.swing.JComboBox<String> cb_articulos;
     private javax.swing.JComboBox<String> cb_personas;
     private javax.swing.JComboBox<String> cb_registro;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
