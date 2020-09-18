@@ -1,0 +1,22 @@
+1- Que inciso escogió y en qué manera cree que eso mejorara su programa.
+r// elegi el inciso 3 y siento que mejorara bastante ya que mi interfaz no era muy 
+buena y estaba demasiado cargada entonces al mejorar eso y las validaciones,
+mejorara bastante mi laboratorio.
+
+2- ¿Cuál es el tema en el que más debilidad siente?
+r// Hilos
+
+3- Explicación de como planea incluir ese tema en el que siente debilidad dentro del laboratorio
+ que se le fue asignado.
+r// Lo incluire en la parte de Comic en la parte de que tan bien esta usando el
+spinner si esta en 7 el progress bar se llenara su septima parte y tambien agregare
+una fecha con hilo.
+
+4-Un comentario hacia su instructora hablando sinceramentesobre: 
+Que cosas le gustaron y no le gustaron sobre los laboratorios que ella le asigno 
+y que haría para mejorar la calidad de los mismo (por ejemplo: aumento en la 
+complejidad/dificultad, reducción de extensión en los labs, etc).
+r//Honestamente tus labs son hermosos, lo unico que el primer lab de pareja lo senti
+como no tan bien explicado pero aparte de eso, los demas fueron muy bien redactados
+y muy bien explicados y pues tambien nos diste el tiempo justo para terminarlo, 
+no tengo quejas para nada, gracias por todo 
