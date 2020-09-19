@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,10 +38,8 @@ public class principal extends javax.swing.JFrame {
         HiloHora h3 = new HiloHora(jl_hora3);
         Thread proceso3 = new Thread(h3);
         proceso3.start();
-        //este hilo es para manejar el progress bar del estado del articulo
-        administrarBarra ab = new administrarBarra(jp_estado);
-        Thread llenado = new Thread(ab);
-        llenado.start();
+
+        //jp_estado.setMaximum(10);
     }
 
     /**
@@ -89,7 +88,6 @@ public class principal extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jt_ocupacion = new javax.swing.JTextField();
-        jt_tiempo = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jt_sueldo = new javax.swing.JTextField();
         jt_horario = new javax.swing.JTextField();
@@ -101,6 +99,7 @@ public class principal extends javax.swing.JFrame {
         sp_edad = new javax.swing.JSpinner();
         jLabel16 = new javax.swing.JLabel();
         jl_hora = new javax.swing.JLabel();
+        sp_semanas = new javax.swing.JSpinner();
         jPanel6 = new javax.swing.JPanel();
         jLabel38 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
@@ -142,6 +141,10 @@ public class principal extends javax.swing.JFrame {
         jp_estado = new javax.swing.JProgressBar();
         jl_hora2 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -186,9 +189,10 @@ public class principal extends javax.swing.JFrame {
         labelEdad.setBounds(55, 129, 37, 19);
 
         bg_sexo.add(rb_m);
+        rb_m.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         rb_m.setText("Masculino");
         jPanel4.add(rb_m);
-        rb_m.setBounds(111, 173, 73, 23);
+        rb_m.setBounds(100, 170, 81, 23);
         jPanel4.add(jt_nombre);
         jt_nombre.setBounds(108, 83, 220, 30);
 
@@ -199,9 +203,10 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setBounds(55, 174, 35, 19);
 
         bg_sexo.add(rb_f);
+        rb_f.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         rb_f.setText("Femenino");
         jPanel4.add(rb_f);
-        rb_f.setBounds(184, 173, 71, 23);
+        rb_f.setBounds(190, 170, 80, 23);
 
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
@@ -210,24 +215,28 @@ public class principal extends javax.swing.JFrame {
         jLabel4.setBounds(12, 215, 78, 19);
 
         bg_civil.add(rb_soltero);
+        rb_soltero.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         rb_soltero.setText("Soltero(a)");
         jPanel4.add(rb_soltero);
-        rb_soltero.setBounds(108, 214, 73, 23);
+        rb_soltero.setBounds(100, 210, 79, 23);
 
         bg_civil.add(rb_casado);
+        rb_casado.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         rb_casado.setText("Casado(a)");
         jPanel4.add(rb_casado);
-        rb_casado.setBounds(181, 214, 76, 23);
+        rb_casado.setBounds(180, 210, 80, 23);
 
         bg_civil.add(rb_divorciado);
+        rb_divorciado.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         rb_divorciado.setText("Divorciado(a)");
         jPanel4.add(rb_divorciado);
-        rb_divorciado.setBounds(257, 214, 90, 23);
+        rb_divorciado.setBounds(270, 210, 96, 23);
 
         bg_civil.add(rb_viudo);
+        rb_viudo.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         rb_viudo.setText("Viudo(a)");
         jPanel4.add(rb_viudo);
-        rb_viudo.setBounds(347, 214, 67, 23);
+        rb_viudo.setBounds(370, 210, 71, 23);
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -285,7 +294,7 @@ public class principal extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Contraseña:");
         jPanel4.add(jLabel9);
-        jLabel9.setBounds(450, 106, 78, 19);
+        jLabel9.setBounds(460, 110, 78, 19);
         jPanel4.add(jp_contraseña);
         jp_contraseña.setBounds(566, 96, 141, 30);
         jPanel4.add(jt_usuario);
@@ -324,8 +333,6 @@ public class principal extends javax.swing.JFrame {
         jLabel14.setBounds(740, 420, 222, 33);
         jPanel4.add(jt_ocupacion);
         jt_ocupacion.setBounds(554, 424, 155, 30);
-        jPanel4.add(jt_tiempo);
-        jt_tiempo.setBounds(970, 419, 60, 30);
 
         jLabel15.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 0, 0));
@@ -338,7 +345,7 @@ public class principal extends javax.swing.JFrame {
         jt_horario.setBounds(560, 480, 155, 23);
 
         jPanel4.add(cb_registro);
-        cb_registro.setBounds(886, 100, 450, 30);
+        cb_registro.setBounds(940, 100, 340, 30);
 
         jLabel37.setFont(new java.awt.Font("Dialog", 1, 13)); // NOI18N
         jLabel37.setForeground(new java.awt.Color(0, 0, 0));
@@ -352,11 +359,11 @@ public class principal extends javax.swing.JFrame {
         jPanel4.add(jLabel57);
         jLabel57.setBounds(1060, 40, 103, 19);
         jPanel4.add(jSeparator3);
-        jSeparator3.setBounds(0, 360, 420, 16);
+        jSeparator3.setBounds(0, 360, 450, 16);
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel4.add(jSeparator4);
-        jSeparator4.setBounds(416, 0, 10, 358);
+        jSeparator4.setBounds(450, 0, 10, 360);
 
         sp_edad.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
         jPanel4.add(sp_edad);
@@ -372,6 +379,8 @@ public class principal extends javax.swing.JFrame {
         jl_hora.setText("00:00:00");
         jPanel4.add(jl_hora);
         jl_hora.setBounds(350, 10, 64, 17);
+        jPanel4.add(sp_semanas);
+        sp_semanas.setBounds(970, 430, 60, 20);
 
         jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1350, 670));
 
@@ -522,9 +531,14 @@ public class principal extends javax.swing.JFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel6.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, 10, 200));
 
-        sp_estado.setModel(new javax.swing.SpinnerNumberModel(0, 0, 10, 1));
-        jPanel6.add(sp_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 400, 60, -1));
-        jPanel6.add(jp_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 440, 300, 30));
+        sp_estado.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+        sp_estado.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sp_estadoStateChanged(evt);
+            }
+        });
+        jPanel6.add(sp_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 400, 70, -1));
+        jPanel6.add(jp_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 440, 300, 30));
 
         jl_hora2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jl_hora2.setForeground(new java.awt.Color(0, 0, 0));
@@ -534,6 +548,24 @@ public class principal extends javax.swing.JFrame {
         jLabel17.setForeground(new java.awt.Color(0, 0, 0));
         jLabel17.setText("Hora:");
         jPanel6.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, -1, -1));
+
+        jLabel19.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel19.setText("Rojo");
+        jPanel6.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 430, -1, -1));
+
+        jLabel20.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 255, 0));
+        jLabel20.setText("Verde");
+        jPanel6.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 460, -1, -1));
+
+        jTextField1.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        jTextField1.setText("1-4 No tan buen estado");
+        jPanel6.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 430, -1, -1));
+
+        jTextField2.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        jTextField2.setText("5-10 Mejor estado");
+        jPanel6.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(471, 460, 130, -1));
 
         jTabbedPane1.addTab("Crear Articulo", jPanel6);
 
@@ -673,7 +705,7 @@ public class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_crearJuegoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearJuegoMouseClicked
-        //este boton funciona para crear juegos
+        //este boton funciona para crear juegos hola 
         while (true) {
             String contraseña = "";
             contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
@@ -771,7 +803,7 @@ public class principal extends javax.swing.JFrame {
                     jt_editorial.setText("");
                     jt_tamaño.setText("");
                     jt_puntuacion.setText("");
-                    sp_estado.setValue(0);
+                    sp_estado.setValue(1);
                     jt_volumen.setText("");
                 }
             } else {
@@ -823,7 +855,7 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_crearComicMouseClicked
 
     private void bt_crearFiguraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearFiguraMouseClicked
-       //Este boton es para crear una figura con sus respectivos datos mas la seguridad pedida por la hermosa instructora :3
+        //Este boton es para crear una figura con sus respectivos datos mas la seguridad pedida por la hermosa instructora :3
         while (true) {
             String contraseña = "";
             contraseña = JOptionPane.showInputDialog("Ingrese la clave para poder acceder: ");
@@ -968,9 +1000,9 @@ public class principal extends javax.swing.JFrame {
                 if (jt_nombre.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Debe llenar los campos de Persona Primero!");
                 } else {
-                    String ID, Usuario, Horario, SemanaTrabajando, Ocupacion;
+                    String ID, Usuario, Horario, Ocupacion;
                     String Nombre;
-                    int Edad;
+                    int Edad, SemanaTrabajando;
                     String Sexo = "";
                     String EstadoCivil = "";
                     double Altura, Peso, Sueldo;
@@ -996,7 +1028,7 @@ public class principal extends javax.swing.JFrame {
                         Peso = Double.parseDouble(jf_peso.getText());
                         Ocupacion = jt_ocupacion.getText();
                         Horario = jt_horario.getText();
-                        SemanaTrabajando = jt_tiempo.getText();
+                        SemanaTrabajando = Integer.parseInt(sp_semanas.getValue().toString());
                         Sueldo = Double.parseDouble(jt_sueldo.getText());
                         Persona g2 = new PersonaGeneral(Ocupacion, Horario, Edad, Sueldo, ID, Nombre, Edad, Sexo, EstadoCivil, Altura, Peso);
                         DefaultComboBoxModel modelo3 = (DefaultComboBoxModel) cb_registro.getModel();
@@ -1015,7 +1047,7 @@ public class principal extends javax.swing.JFrame {
                     jf_peso.setText("");
                     jt_ocupacion.setText("");
                     jt_horario.setText("");
-                    jt_tiempo.setText("");
+                    sp_semanas.setValue(0);
                     jt_sueldo.setText("");
                 }
             } else {
@@ -1024,7 +1056,7 @@ public class principal extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_bt_crearPersonaMouseClicked
-    
+
     private void bt_creargerenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_creargerenteMouseClicked
         //este boton es para crear un gerente y lo mete en su respectivo combo box
         while (true) {
@@ -1094,6 +1126,17 @@ public class principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_bt_creargerenteMouseClicked
 
+    private void sp_estadoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sp_estadoStateChanged
+        jp_estado.setStringPainted(true);
+        jp_estado.setForeground(Color.red);
+        ab = new administrarBarra(jp_estado, (int) sp_estado.getValue());
+        if ((int)sp_estado.getValue() >= 5) {
+            jp_estado.setStringPainted(true);
+            jp_estado.setForeground(Color.green);
+        }
+        ab.start();
+    }//GEN-LAST:event_sp_estadoStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -1132,6 +1175,7 @@ public class principal extends javax.swing.JFrame {
     ArrayList<Articulo> articulos = new ArrayList();
     ArrayList<Persona> contactos = new ArrayList();
     Color color;
+    administrarBarra ab;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bg_civil;
@@ -1154,7 +1198,9 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
@@ -1196,6 +1242,8 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton jb_eliminar;
     private javax.swing.JFormattedTextField jf_altura;
     private javax.swing.JFormattedTextField jf_peso;
@@ -1221,7 +1269,6 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JTextField jt_puntuacion;
     private javax.swing.JTextField jt_sueldo;
     private javax.swing.JTextField jt_tamaño;
-    private javax.swing.JTextField jt_tiempo;
     private javax.swing.JTextField jt_titulo;
     private javax.swing.JTextField jt_usuario;
     private javax.swing.JTextField jt_volumen;
@@ -1235,6 +1282,7 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JRadioButton rb_viudo;
     private javax.swing.JSpinner sp_edad;
     private javax.swing.JSpinner sp_estado;
+    private javax.swing.JSpinner sp_semanas;
     private javax.swing.JTable tabla1;
     // End of variables declaration//GEN-END:variables
 }
